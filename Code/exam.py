@@ -51,9 +51,14 @@ for i in range(len(phrases_date)):
 ###recentファイルの読み込み###
 with open('../Question/recent_exam_posi.txt') as f:
     recent_exam_posi_list = [s.strip() for s in f.readlines()]
+    #recent_exam_posi_list = [int(l) for l in recent_exam_posi_list]
 with open('../Question/recent_exam_date.txt') as f:
     recent_exam_date_list = [s.strip() for s in f.readlines()]
     recent_exam_date = datetime.datetime.strptime(recent_exam_date_list[0],'%Y-%m-%d')
+print(recent_exam_posi_list[0])
+print(type(recent_exam_posi_list[0]))
+recent_exam_posi_list = [int(l) for l in recent_exam_posi_list]
+print(type(recent_exam_posi_list[0]))
 
 ###問題###
 now_today = datetime.datetime.now()
@@ -126,6 +131,7 @@ while now_today.date() == dt_today.date():
     #更新データの作成#
     if recent_exam_date.date() == dt_today.date():
         renew_list = list(set(renew_posi) - set(recent_exam_posi_list))
+        print(renew_list)
         tomorrow = dt_today + datetime.timedelta(days=1)
         renew_trigger = [str(tomorrow.date())]
         for k in range(len(Renew_Times)):
@@ -172,8 +178,10 @@ while now_today.date() == dt_today.date():
         f.write('\n'.join(renew_trigger))
     with open('../Renew/renew_times.txt', mode='w') as f:
         f.write('\n'.join(Renew_Times))
+        f.write('\n')
     with open('../Renew/renew_date.txt', mode='w') as f:
         f.write('\n'.join(Renew_Date))
+        f.write('\n')
 
     now_today = datetime.datetime.now()
 
