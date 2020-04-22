@@ -5,6 +5,7 @@ import random
 import math
 import copy
 import numpy as np
+import os
 
 ###dataファイルの読み込み###
 with open('../Phrases/phrases_sentence.txt') as f:
@@ -18,17 +19,18 @@ with open('../Phrases/phrases_date.txt') as f:
 
 ###更新###
 dt_today = datetime.datetime.now()
-with open('../Renew/renew_trigger.txt') as f:
-    Renew_Trigger = [s.strip() for s in f.readlines()]
 with open('../Renew/renew_times.txt') as f:
     Renew_Times = [s.strip() for s in f.readlines()]
 with open('../Renew/renew_date.txt') as f:
     Renew_Date = [s.strip() for s in f.readlines()]
-trigger_date = datetime.datetime.strptime(Renew_Trigger[0], '%Y-%m-%d') - dt_today
-if trigger_date.total_seconds() <= 0:
-    for i in range(len(Renew_Date)):
-        phrases_date[i] = Renew_Date[i]
-        phrases_times[i] = Renew_Times[i]
+if os.path.exists('../Renew/renew_trigger.txt'):
+    with open('../Renew/renew_trigger.txt') as f:
+        Renew_Trigger = [s.strip() for s in f.readlines()]
+    trigger_date = datetime.datetime.strptime(Renew_Trigger[0], '%Y-%m-%d') - dt_today
+    if trigger_date.total_seconds() <= 0:
+        for i in range(len(Renew_Date)):
+            phrases_date[i] = Renew_Date[i]
+            phrases_times[i] = Renew_Times[i]
 
 ###date,timeファイルの書き込み###
 with open('../Phrases/phrases_times.txt', mode='w') as f:
